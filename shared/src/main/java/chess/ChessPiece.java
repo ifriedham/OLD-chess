@@ -17,12 +17,12 @@ public class ChessPiece {
      * The various different chess piece options
      */
     public enum PieceType {
-        KING,
-        QUEEN,
-        BISHOP,
-        KNIGHT,
-        ROOK,
-        PAWN
+        KING, // 1 square in all directions; cannot move into check
+        QUEEN, // any # of squares in all directions
+        BISHOP, // any # of squares diagonally
+        KNIGHT, // (horse); 2-1 movement; complicated?
+        ROOK, // any # of squares vertically/horizontally
+        PAWN // 1 square forward (exception: on first turn, it can move 2 forward); kills diagonally; can become a queen?
     }
 
     /**
