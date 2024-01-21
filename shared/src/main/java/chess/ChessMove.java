@@ -57,6 +57,10 @@ public class ChessMove {
         String start = readablePosition(startPosition);
         String end = readablePosition(endPosition);
 
+        if (promotionPiece != null) {
+            return start + " to " + end + "(promoted to " + promotionPiece + ")";
+        }
+
         return start + " to " + end;
     }
 }
