@@ -49,7 +49,7 @@ public class ChessPiece { //testing commit / push commands for streamdeck
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         //throw new RuntimeException("Not implemented");
-        return new ArrayList<>();
+        return new ArrayList<>();  // temp, from phase 0 vid
 
     }
 }
