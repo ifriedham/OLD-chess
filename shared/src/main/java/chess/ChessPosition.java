@@ -24,6 +24,7 @@ public class ChessPosition {
      */
     public int getRow() {
         //throw new RuntimeException("Not implemented");
+        //System.out.println("getRow called, returning row: " + row);
         return row;
     }
 
@@ -33,6 +34,7 @@ public class ChessPosition {
      */
     public int getColumn() {
         //throw new RuntimeException("Not implemented");
+        //System.out.println("getColumn called, returning col: " + col);
         return col;
     }
 
