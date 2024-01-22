@@ -9,7 +9,7 @@ import java.util.Collection;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessPiece { //testing commit / push commands for streamdeck
+public class ChessPiece {
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
     }
@@ -30,6 +30,7 @@ public class ChessPiece { //testing commit / push commands for streamdeck
      * @return Which team this chess piece belongs to
      */
     public ChessGame.TeamColor getTeamColor() {
+
         throw new RuntimeException("Not implemented");
     }
 
@@ -37,6 +38,7 @@ public class ChessPiece { //testing commit / push commands for streamdeck
      * @return which type of chess piece this piece is
      */
     public PieceType getPieceType() {
+
         throw new RuntimeException("Not implemented");
     }
 
@@ -50,6 +52,5 @@ public class ChessPiece { //testing commit / push commands for streamdeck
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         //throw new RuntimeException("Not implemented");
         return new ArrayList<>();  // temp, from phase 0 vid
-
     }
 }
