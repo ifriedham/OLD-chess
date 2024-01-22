@@ -87,17 +87,12 @@ public class ChessPiece {
                         } else { // ...ally, do not add to list
                             break;
                         }
-
                     }
-
                 } else { // invalid move: out of bounds
                     break;
                 }
             }
-
         }
-
-
         return possibleMoves;
         //throw new RuntimeException("Not implemented (mine)");
     }
