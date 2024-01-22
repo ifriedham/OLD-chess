@@ -62,27 +62,25 @@ public class ChessPiece {
     }
 
     private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition) {
-        int[] N = {1, 0}; // North
-        int[] E = {0, 1}; //  East
-        int[] S = {-1, 0}; // South
-        int[] W = {0, -1}; //  West
-
-        int[][] directions = {N, E, S, W}; // which directions are going to be checked
+        int[][] directions = {
+                {1, 0}, // North
+                {0, 1}, // East
+                {-1, 0}, // South
+                {0, -1}  // West
+        };
 
         return findMoves(board, myPosition, directions);
-        //throw new RuntimeException("Not implemented (mine)");
     }
 
     private Collection<ChessMove> diagonalMoves(ChessBoard board, ChessPosition myPosition) {
-        int[] NE = {1, 1}; // North East
-        int[] SE = {-1, 1}; // South East
-        int[] SW = {-1, -1}; // South West
-        int[] NW = {1, -1}; // North West
-
-        int[][] directions = {NE, SE, SW, NW}; // which directions are going to be checked
+        int[][] directions = {
+                {1, 1},   // North East
+                {-1, 1},  // South East
+                {-1, -1}, // South West
+                {1, -1}   // North West
+        };
 
         return findMoves(board, myPosition, directions);
-        //throw new RuntimeException("Not implemented (mine)");
     }
 
     private Collection<ChessMove> findMoves(ChessBoard board, ChessPosition myPosition, int[][] directions) {
@@ -92,35 +90,28 @@ public class ChessPiece {
         ArrayList<ChessMove> possibleMoves = new ArrayList<>();
 
         for (int[] direction : directions) { // loops through the four possible directions
-            for (int i = 1; i < 8; i++) { // checks all possible squares in a straight line
-
-                //int[] nextSquare = {row + (direction[0] * i), col + (direction[1] * i)};  // where the magic happens
-
+            for (int i = 1; i <= 7; i++) { // checks all possible squares in a straight line
                 int nextRow = row + i * direction[0];
                 int nextCol = col + i * direction[1];
-                ChessPosition nextPosition = new ChessPosition(nextRow , nextCol);
 
-                System.out.println("{" + nextRow + ", " + nextCol + "}, ");
-
-                if (nextRow < 1 || nextRow > 8 || nextCol < 1 || nextCol > 8) {// Check if the next square is on the board
-                    //System.out.println("Breaking out of loop due to board boundaries");
-                    //System.out.println("nextRow: " + nextRow + ", nextCol: " + nextCol);
+                if (nextRow < 1 || nextRow > 8 || nextCol < 1 || nextCol > 8) {
                     break;
                 }
+
+                ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
 
                 // check if there's a piece on the next square
                 ChessPiece piece = board.getPiece(nextPosition);
 
                 if (piece == null) { // new square is empty, add move to possibleMoves list
+                    //System.out.println("{" + nextRow + ", " + nextCol + "}, ");
                     possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
 
-                }
-                else { // new square is occupied by an...
+                } else { // new square is occupied by an...
                     if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
                         possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
                         break;
-                    }
-                    else { // ...ally, do not add to list
+                    } else { // ...ally, do not add to list
                         break;
                     }
                 }
