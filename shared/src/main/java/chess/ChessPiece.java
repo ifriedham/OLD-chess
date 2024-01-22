@@ -48,6 +48,8 @@ public class ChessPiece {
     }
 
     private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition) {
+
+
         throw new RuntimeException("Not implemented (mine)");
     }
 
@@ -93,6 +95,7 @@ public class ChessPiece {
                 }
             }
         }
+
         return possibleMoves;
         //throw new RuntimeException("Not implemented (mine)");
     }
