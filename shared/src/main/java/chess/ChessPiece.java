@@ -11,7 +11,12 @@ import java.util.Collection;
  */
 public class ChessPiece {
 
+    private final ChessGame.TeamColor color;
+    private final PieceType type;
+
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
+        this.color = pieceColor;
+        this.type = type;
     }
 
     /**
@@ -30,16 +35,49 @@ public class ChessPiece {
      * @return Which team this chess piece belongs to
      */
     public ChessGame.TeamColor getTeamColor() {
-
-        throw new RuntimeException("Not implemented");
+        return color;
+        //throw new RuntimeException("Not implemented");
     }
 
     /**
      * @return which type of chess piece this piece is
      */
     public PieceType getPieceType() {
+        return type;
+        //throw new RuntimeException("Not implemented");
+    }
 
-        throw new RuntimeException("Not implemented");
+    private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition){
+        throw new RuntimeException("Not implemented (mine)");
+    }
+
+    private Collection<ChessMove> diagonalMoves(ChessBoard board, ChessPosition myPosition){
+
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        Collection<ChessMove> possibleMoves = new ArrayList<>();
+
+        int[] NE = {1, 1}; // North East
+        int[] SE = {-1, 1}; // South East
+        int[] SW = {-1, -1}; // South West
+        int[] NW = {1, -1}; // North West
+
+        int[][] directions = {NE, SE, SW, NW}; // which directions are going to be checked
+
+        for (int[] direction : directions){ // loops through the four possible directions
+            for (int i = 1; i <= 8; i++){ // checks all possible squares in a straight line
+                int[] nextSquare = {row + direction[0] * i, col + direction[1] * i};
+
+            }
+
+        }
+
+
+
+
+        return possibleMoves;
+        //throw new RuntimeException("Not implemented (mine)");
     }
 
     /**
@@ -50,7 +88,25 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+
+        Collection<ChessMove> validMoves = new ArrayList<>();
+
+        switch (this.type){
+            case KING -> {
+            }
+            case QUEEN -> {
+            }
+            case BISHOP -> {
+                validMoves = diagonalMoves(board, myPosition);
+            }
+            case KNIGHT -> {
+            }
+            case ROOK -> {
+            }
+            case PAWN -> {
+            }
+        }
+        return validMoves;
         //throw new RuntimeException("Not implemented");
-        return new ArrayList<>();  // temp, from phase 0 vid
     }
 }
