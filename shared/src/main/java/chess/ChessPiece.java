@@ -165,6 +165,21 @@ public class ChessPiece {
                 }
             }
             case QUEEN -> {
+                int[][] directions = {
+                        {1, 0}, // North
+                        {1, 1},   // North East
+                        {0, 1}, // East
+                        {-1, 1},  // South East
+                        {-1, 0}, // South
+                        {-1, -1}, // South West
+                        {0, -1},  // West
+                        {1, -1}   // North West
+                };
+
+                // loop through all possible directions
+                for (int[] direction : directions) {
+                    validMoves.addAll(findLinearMoves(board, myPosition, direction[0], direction[1]));
+                }
             }
             case BISHOP -> {
                 int[][] directions = {
