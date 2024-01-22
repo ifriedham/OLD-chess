@@ -216,8 +216,17 @@ public class ChessPiece {
 
             }
             case ROOK -> {
-                //validMoves = straightMoves(board, myPosition);
-            }
+                int[][] directions = {
+                        {1, 0}, // North
+                        {0, 1}, // East
+                        {-1, 0}, // South
+                        {0, -1},  // West
+                };
+
+                // loop through all possible directions
+                for (int[] direction : directions) {
+                    validMoves.addAll(findLinearMoves(board, myPosition, direction[0], direction[1]));
+                }            }
             case PAWN -> {
             }
         }
