@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -17,6 +18,19 @@ public class ChessPiece {
     public ChessPiece(ChessGame.TeamColor pieceColor, PieceType type) {
         this.color = pieceColor;
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece piece = (ChessPiece) o;
+        return color == piece.color && type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
     }
 
     /**
@@ -86,7 +100,11 @@ public class ChessPiece {
                 int nextCol = col + i * direction[1];
                 ChessPosition nextPosition = new ChessPosition(nextRow , nextCol);
 
+                System.out.println("{" + nextRow + ", " + nextCol + "}, ");
+
                 if (nextRow < 1 || nextRow > 8 || nextCol < 1 || nextCol > 8) {// Check if the next square is on the board
+                    //System.out.println("Breaking out of loop due to board boundaries");
+                    //System.out.println("nextRow: " + nextRow + ", nextCol: " + nextCol);
                     break;
                 }
 
@@ -95,6 +113,7 @@ public class ChessPiece {
 
                 if (piece == null) { // new square is empty, add move to possibleMoves list
                     possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+
                 }
                 else { // new square is occupied by an...
                     if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
