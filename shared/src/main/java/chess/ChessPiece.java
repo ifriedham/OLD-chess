@@ -61,7 +61,7 @@ public class ChessPiece {
         //throw new RuntimeException("Not implemented");
     }
 
-    private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition) {
+    /*private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition) {
         int[][] directions = {
                 {1, 0}, // North
                 {0, 1}, // East
@@ -77,9 +77,9 @@ public class ChessPiece {
         }
 
         return possibleMoves;
-    }
+    }*/
 
-    private Collection<ChessMove> diagonalMoves(ChessBoard board, ChessPosition myPosition) {
+    /*private Collection<ChessMove> diagonalMoves(ChessBoard board, ChessPosition myPosition) {
         //System.out.println("diagonalMoves called");
 
         int[][] directions = {
@@ -98,12 +98,42 @@ public class ChessPiece {
         }
 
         return possibleMoves;
-    }
+    }*/
+
+  /*  private Collection<ChessMove> findKingMoves(ChessBoard board, ChessPosition myPosition, int rowDirection, int colDirection) {
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        ArrayList<ChessMove> possibleMoves = new ArrayList<>();
+
+            int nextRow = row + rowDirection;
+            int nextCol = col + colDirection;
+
+            // check if the position is valid
+            if (nextRow <= 0 || nextRow > 8 || nextCol <= 0 || nextCol > 8) {
+                break;
+            }
+
+            // position is valid, make ChessPosition class at location
+            ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
+
+            // check if there's a piece on the next square
+            ChessPiece piece = board.getPiece(nextPosition);
+
+            if (piece == null) { // new square is empty, add move to possibleMoves list
+                possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+            } else { // new square is occupied by an...
+                if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
+                    possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+                    break;
+                } else { // ...ally, do not add to list
+                    break;
+                }
+            }
+        return possibleMoves;
+    }*/
 
     private Collection<ChessMove> findMoves(ChessBoard board, ChessPosition myPosition, int rowDirection, int colDirection) {
-
-        //System.out.println("findMoves called");
-
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
 
@@ -111,34 +141,21 @@ public class ChessPiece {
 
         // loop through all squares in a straight line
         for (int i = 1; i < 8; i++){
-            //System.out.println("straight line loop");
-
             int nextRow = row + i * rowDirection;
             int nextCol = col + i * colDirection;
 
-            //System.out.println("nextRow: " + nextRow + ", nextCol: " + nextCol);
-
             // check if the position is valid
-            if (nextRow <= 0 || nextRow > 8 || nextCol <= 0 || nextCol > 8) {
-                //System.out.println("position out of bounds, breaking loop");
-
+            if (inValid(nextRow, nextCol)) {
                 break;
             }
 
             // position is valid, make ChessPosition class at location
-            //System.out.println("position valid, making new chessPosition");
             ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
 
-            // problem zone...
-
             // check if there's a piece on the next square
-            //System.out.println("checking if space is occupied");
             ChessPiece piece = board.getPiece(nextPosition);
 
-            // ... problem zone end
-
             if (piece == null) { // new square is empty, add move to possibleMoves list
-                //System.out.println("empty square, adding move to list");
                 possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
             } else { // new square is occupied by an...
                 if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
@@ -149,8 +166,13 @@ public class ChessPiece {
                 }
             }
         }
-        //System.out.println("returning possibleMoves list");
         return possibleMoves;
+    }
+
+
+
+    private boolean inValid(int nextRow, int nextCol) {
+        return nextRow <= 0 || nextRow > 8 || nextCol <= 0 || nextCol > 8;
     }
 
     /**
@@ -166,18 +188,66 @@ public class ChessPiece {
 
         switch (this.type) {
             case KING -> {
+                int[][] directions = {
+                        {1, 0}, // North
+                        {1, 1},   // North East
+                        {0, 1}, // East
+                        {-1, 1},  // South East
+                        {-1, 0}, // South
+                        {-1, -1}, // South West
+                        {0, -1},  // West
+                        {1, -1}   // North West
+                };
+
+                int row = myPosition.getRow();
+                int col = myPosition.getColumn();
+
+                // loop through all possible directions
+                for (int[] direction : directions) {
+                    int nextRow = row + direction[0];
+                    int nextCol = col + direction[1];
+
+                    // check if the position is valid
+                    if (inValid(nextRow, nextCol)) {
+                        continue;
+                    }
+
+                    // position is valid, make ChessPosition class at location
+                    ChessPosition nextPosition = new ChessPosition(nextRow, nextCol);
+                    // check if there's a piece on the next square
+                    ChessPiece piece = board.getPiece(nextPosition);
+
+                    if (piece == null) { // new square is empty, add move to possibleMoves list
+                        validMoves.add(new ChessMove(myPosition, nextPosition, null));
+                    } else { // new square is occupied by an...
+                        if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
+                            validMoves.add(new ChessMove(myPosition, nextPosition, null));
+                            continue;
+                        } else { // ...ally, do not add to list
+                            continue;
+                        }
+                    }
+                }
             }
             case QUEEN -> {
-                validMoves.addAll(straightMoves(board, myPosition));
-                validMoves.addAll(diagonalMoves(board, myPosition));
             }
             case BISHOP -> {
-                validMoves = diagonalMoves(board, myPosition);
+                int[][] directions = {
+                        {1, 1},   // North East
+                        {-1, 1},  // South East
+                        {-1, -1}, // South West
+                        {1, -1}   // North West
+                };
+
+                // loop through all possible directions
+                for (int[] direction : directions) {
+                    validMoves.addAll(findMoves(board, myPosition, direction[0], direction[1]));
+                }
             }
             case KNIGHT -> {
             }
             case ROOK -> {
-                validMoves = straightMoves(board, myPosition);
+                //validMoves = straightMoves(board, myPosition);
             }
             case PAWN -> {
             }
@@ -185,4 +255,8 @@ public class ChessPiece {
         return validMoves;
         //throw new RuntimeException("Not implemented");
     }
+
+
+
+
 }
