@@ -14,7 +14,7 @@ public class ChessPiece {
     private final ChessGame.TeamColor color;
     private final PieceType type;
 
-    public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
+    public ChessPiece(ChessGame.TeamColor pieceColor, PieceType type) {
         this.color = pieceColor;
         this.type = type;
     }
@@ -47,11 +47,11 @@ public class ChessPiece {
         //throw new RuntimeException("Not implemented");
     }
 
-    private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition){
+    private Collection<ChessMove> straightMoves(ChessBoard board, ChessPosition myPosition) {
         throw new RuntimeException("Not implemented (mine)");
     }
 
-    private Collection<ChessMove> diagonalMoves(ChessBoard board, ChessPosition myPosition){
+    private Collection<ChessMove> diagonalMoves(ChessBoard board, ChessPosition myPosition) {
 
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
@@ -65,15 +65,37 @@ public class ChessPiece {
 
         int[][] directions = {NE, SE, SW, NW}; // which directions are going to be checked
 
-        for (int[] direction : directions){ // loops through the four possible directions
-            for (int i = 1; i <= 8; i++){ // checks all possible squares in a straight line
+        for (int[] direction : directions) { // loops through the four possible directions
+            for (int i = 1; i <= 8; i++) { // checks all possible squares in a straight line
                 int[] nextSquare = {row + direction[0] * i, col + direction[1] * i};
 
+                // Check if the next square is on the board
+                if (nextSquare[0] >= 1
+                        && nextSquare[0] <= 8
+                        && nextSquare[1] >= 1
+                        && nextSquare[1] <= 8) {
+
+                    // check if there's a piece on the next square
+                    ChessPosition newPosition = new ChessPosition(nextSquare[0], nextSquare[1]);
+                    ChessPiece piece = board.getPiece(newPosition);
+                    if (piece == null) { // new square is empty, add move to possibleMoves list
+                        possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                    } else { // new square is occupied by an...
+                        if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
+                            possibleMoves.add(new ChessMove(myPosition, newPosition, null));
+                            break;
+                        } else { // ...ally, do not add to list
+                            break;
+                        }
+
+                    }
+
+                } else { // invalid move: out of bounds
+                    break;
+                }
             }
 
         }
-
-
 
 
         return possibleMoves;
@@ -91,7 +113,7 @@ public class ChessPiece {
 
         Collection<ChessMove> validMoves = new ArrayList<>();
 
-        switch (this.type){
+        switch (this.type) {
             case KING -> {
             }
             case QUEEN -> {
