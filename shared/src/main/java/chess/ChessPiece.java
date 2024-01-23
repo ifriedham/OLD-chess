@@ -167,7 +167,7 @@ public class ChessPiece {
                     ChessPiece extraPiece = board.getPiece(extraPosition);
 
                     if (extraPiece == null){ // extra square is empty, add to list
-                        possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+                        possibleMoves.add(new ChessMove(myPosition, extraPosition, null));
                     }
                 }
             }
