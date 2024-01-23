@@ -145,28 +145,34 @@ public class ChessPiece {
         ChessPiece piece = board.getPiece(nextPosition);
 
         if (colDirection != 0) { // diagonal square
-            if (piece != null) { // new square is occupied, add to list
-                if (promotePawn(nextPosition)){
-                    possibleMoves.add(new ChessMove(myPosition, nextPosition, null)); // PLACEHOLDER!! promotion not yet implemented
-                }else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+            if (piece != null) { // new square is occupied by a...
+                if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
+                    if (promotePawn(nextPosition)) {
+                        possibleMoves.add(new ChessMove(myPosition, nextPosition, null)); // PLACEHOLDER!! promotion not yet implemented
+                    } else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+                } else return new ArrayList<>(); // ally, return an empty list
             }
         }
 
         if (colDirection == 0) { // forward square
             if (piece == null) { // new square is empty, add to list
-                if (promotePawn(nextPosition)){
+                if (promotePawn(nextPosition)) {
                     possibleMoves.add(new ChessMove(myPosition, nextPosition, null)); // PLACEHOLDER!! promotion not yet implemented
-                }else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
+                } else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
 
                 if (firstMove(myPosition)) {  // first move check
                     ChessPosition extraPosition = null;
-                    if (this.color == ChessGame.TeamColor.WHITE) { extraPosition = new ChessPosition(row + 2, col);}
-                    if (this.color == ChessGame.TeamColor.BLACK) { extraPosition = new ChessPosition(row - 2, col);}
+                    if (this.color == ChessGame.TeamColor.WHITE) {
+                        extraPosition = new ChessPosition(row + 2, col);
+                    }
+                    if (this.color == ChessGame.TeamColor.BLACK) {
+                        extraPosition = new ChessPosition(row - 2, col);
+                    }
 
                     // check if there's already a piece there
                     ChessPiece extraPiece = board.getPiece(extraPosition);
 
-                    if (extraPiece == null){ // extra square is empty, add to list
+                    if (extraPiece == null) { // extra square is empty, add to list
                         possibleMoves.add(new ChessMove(myPosition, extraPosition, null));
                     }
                 }
@@ -194,7 +200,7 @@ public class ChessPiece {
         return isFirst;
     }
 
-    private boolean promotePawn (ChessPosition possiblePosition){
+    private boolean promotePawn(ChessPosition possiblePosition) {
         int row = possiblePosition.getRow();
         return row == 1 || row == 8;
     }
@@ -303,7 +309,8 @@ public class ChessPiece {
                                 {1, 0}, // North
                                 {1, 1}, // North-East
                         };
-                        for (int[] direction : directions) validMoves.addAll(findPawnMoves(board, myPosition, direction[0], direction[1]));
+                        for (int[] direction : directions)
+                            validMoves.addAll(findPawnMoves(board, myPosition, direction[0], direction[1]));
                     }
 
                     case BLACK -> {
@@ -312,7 +319,8 @@ public class ChessPiece {
                                 {-1, 0}, // North
                                 {-1, 1}, // North-East
                         };
-                        for (int[] direction : directions) validMoves.addAll(findPawnMoves(board, myPosition, direction[0], direction[1]));
+                        for (int[] direction : directions)
+                            validMoves.addAll(findPawnMoves(board, myPosition, direction[0], direction[1]));
                     }
                 }
             }
