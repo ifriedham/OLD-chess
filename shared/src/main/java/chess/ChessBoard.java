@@ -56,39 +56,39 @@ public class ChessBoard {
 
         for (int i = 0; i < 4; i++) {
             if (i == 0) {
-                // populate WHITE special pieces
-                board[7][0] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
-                board[7][1] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
-                board[7][2] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
-                board[7][3] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN);
-                board[7][4] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING);
-                board[7][5] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
-                board[7][6] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
-                board[7][7] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
+                // populate BLACK special pieces
+                board[7][0] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
+                board[7][1] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
+                board[7][2] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+                board[7][3] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN);
+                board[7][4] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
+                board[7][5] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+                board[7][6] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
+                board[7][7] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
             }
             if (i == 1) {
-                // populate WHITE pawns
+                // populate BLACK pawns
                 for (int j = 0; j < 8; j++) {
-                    board[6][j] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+                    board[6][j] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
                 }
             }
 
             if (i == 2) {
-                // populate BLACK pawns
+                // populate WHITE pawns
                 for (int j = 0; j < 8; j++) {
-                    board[1][j] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
+                    board[1][j] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
                 }
             }
             if (i == 3) {
-                // populate BLACK special pieces
-                board[0][0] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
-                board[0][1] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
-                board[0][2] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
-                board[0][3] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN);
-                board[0][4] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
-                board[0][5] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
-                board[0][6] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
-                board[0][7] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
+                // populate WHITE special pieces
+                board[0][0] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
+                board[0][1] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
+                board[0][2] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
+                board[0][3] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN);
+                board[0][4] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING);
+                board[0][5] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
+                board[0][6] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
+                board[0][7] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
             }
         }
         //System.out.print(showBoard(board));
@@ -97,9 +97,9 @@ public class ChessBoard {
 
     private StringBuilder showBoard(ChessPiece[][] board) {
         StringBuilder txtBoard = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 7; i >= 0; i--) {
             StringBuilder row = new StringBuilder("|");
-            for (int j = 0; j < 8; j++) {
+            for (int j = 7; j >= 0; j--) {
                 ChessPiece piece = board[i][j];
                 String pieceSymbol = (piece != null) ? getPieceSymbol(piece) : " ";  // Check for null
                 row.append(pieceSymbol).append("|");
@@ -112,7 +112,7 @@ public class ChessBoard {
     }
 
     private String getPieceSymbol(ChessPiece piece) {
-        String symbol = "";
+        String symbol;
         ChessPiece.PieceType pieceType = piece.getPieceType();
 
         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
@@ -125,41 +125,25 @@ public class ChessBoard {
     }
 
     private String getWhitePieceSymbol(ChessPiece.PieceType pieceType) {
-        switch (pieceType) {
-            case KING:
-                return "K";
-            case QUEEN:
-                return "Q";
-            case BISHOP:
-                return "B";
-            case KNIGHT:
-                return "N";  // "N" for Knights
-            case ROOK:
-                return "R";
-            case PAWN:
-                return "P";
-            default:
-                return "";
-        }
+        return switch (pieceType) {
+            case KING -> "K";
+            case QUEEN -> "Q";
+            case BISHOP -> "B";
+            case KNIGHT -> "N";  // "N" for Knights
+            case ROOK -> "R";
+            case PAWN -> "P";
+        };
     }
 
     private String getBlackPieceSymbol(ChessPiece.PieceType pieceType) {
-        switch (pieceType) {
-            case KING:
-                return "k";
-            case QUEEN:
-                return "q";
-            case BISHOP:
-                return "b";
-            case KNIGHT:
-                return "n";  // "N" for Knights
-            case ROOK:
-                return "r";
-            case PAWN:
-                return "p";
-            default:
-                return "";
-        }
+        return switch (pieceType) {
+            case KING -> "k";
+            case QUEEN -> "q";
+            case BISHOP -> "b";
+            case KNIGHT -> "n";  // "N" for Knights
+            case ROOK -> "r";
+            case PAWN -> "p";
+        };
     }
 
 
@@ -168,11 +152,11 @@ public class ChessBoard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChessBoard that = (ChessBoard) o;
-        return Arrays.equals(board, that.board);
+        return Arrays.deepEquals(board, that.board);
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(board);
+        return Arrays.deepHashCode(board);
     }
 }
