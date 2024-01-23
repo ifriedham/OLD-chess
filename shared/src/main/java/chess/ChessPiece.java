@@ -148,7 +148,10 @@ public class ChessPiece {
             if (piece != null) { // new square is occupied by a...
                 if (piece.getTeamColor() != this.getTeamColor()) {  // ...opponent, add move to list
                     if (promotePawn(nextPosition)) {
-                        possibleMoves.add(new ChessMove(myPosition, nextPosition, null)); // PLACEHOLDER!! promotion not yet implemented
+                        possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.QUEEN));
+                        possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.ROOK));
+                        possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.KNIGHT));
+                        possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.BISHOP));
                     } else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
                 } else return new ArrayList<>(); // ally, return an empty list
             }
@@ -157,7 +160,10 @@ public class ChessPiece {
         if (colDirection == 0) { // forward square
             if (piece == null) { // new square is empty, add to list
                 if (promotePawn(nextPosition)) {
-                    possibleMoves.add(new ChessMove(myPosition, nextPosition, null)); // PLACEHOLDER!! promotion not yet implemented
+                    possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.QUEEN));
+                    possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.ROOK));
+                    possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.KNIGHT));
+                    possibleMoves.add(new ChessMove(myPosition, nextPosition, PieceType.BISHOP));
                 } else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
 
                 if (firstMove(myPosition)) {  // first move check
