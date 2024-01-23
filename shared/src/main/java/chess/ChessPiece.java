@@ -167,19 +167,23 @@ public class ChessPiece {
                 } else possibleMoves.add(new ChessMove(myPosition, nextPosition, null));
 
                 if (firstMove(myPosition)) {  // first move check
-                    ChessPosition extraPosition = null;
                     if (this.color == ChessGame.TeamColor.WHITE) {
-                        extraPosition = new ChessPosition(row + 2, col);
+                        ChessPosition extraPosition = new ChessPosition(row + 2, col);
+                        // check if there's already a piece there
+                        ChessPiece extraPiece = board.getPiece(extraPosition);
+
+                        if (extraPiece == null) { // extra square is empty, add to list
+                            possibleMoves.add(new ChessMove(myPosition, extraPosition, null));
+                        }
                     }
                     if (this.color == ChessGame.TeamColor.BLACK) {
-                        extraPosition = new ChessPosition(row - 2, col);
-                    }
+                        ChessPosition extraPosition = new ChessPosition(row - 2, col);
+                        // check if there's already a piece there
+                        ChessPiece extraPiece = board.getPiece(extraPosition);
 
-                    // check if there's already a piece there
-                    ChessPiece extraPiece = board.getPiece(extraPosition);
-
-                    if (extraPiece == null) { // extra square is empty, add to list
-                        possibleMoves.add(new ChessMove(myPosition, extraPosition, null));
+                        if (extraPiece == null) { // extra square is empty, add to list
+                            possibleMoves.add(new ChessMove(myPosition, extraPosition, null));
+                        }
                     }
                 }
             }
