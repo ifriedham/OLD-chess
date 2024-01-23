@@ -45,9 +45,123 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
+        // clear out board
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = null;
+            }
+        }
 
-        throw new RuntimeException("Not implemented");
+        //System.out.print(showBoard(board));
+
+        for (int i = 0; i < 4; i++) {
+            if (i == 0) {
+                // populate WHITE special pieces
+                board[7][0] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
+                board[7][1] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
+                board[7][2] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
+                board[7][3] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.QUEEN);
+                board[7][4] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING);
+                board[7][5] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
+                board[7][6] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KNIGHT);
+                board[7][7] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
+            }
+            if (i == 1) {
+                // populate WHITE pawns
+                for (int j = 0; j < 8; j++) {
+                    board[6][j] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+                }
+            }
+
+            if (i == 2) {
+                // populate BLACK pawns
+                for (int j = 0; j < 8; j++) {
+                    board[1][j] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
+                }
+            }
+            if (i == 3) {
+                // populate BLACK special pieces
+                board[0][0] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
+                board[0][1] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
+                board[0][2] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+                board[0][3] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN);
+                board[0][4] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
+                board[0][5] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+                board[0][6] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
+                board[0][7] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
+            }
+        }
+        //System.out.print(showBoard(board));
+        //throw new RuntimeException("Not implemented");
     }
+
+    private StringBuilder showBoard(ChessPiece[][] board) {
+        StringBuilder txtBoard = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            StringBuilder row = new StringBuilder("|");
+            for (int j = 0; j < 8; j++) {
+                ChessPiece piece = board[i][j];
+                String pieceSymbol = (piece != null) ? getPieceSymbol(piece) : " ";  // Check for null
+                row.append(pieceSymbol).append("|");
+            }
+            txtBoard.append(row).append("\n");  // Append newline character
+        }
+        txtBoard.append("\n");
+
+        return txtBoard;
+    }
+
+    private String getPieceSymbol(ChessPiece piece) {
+        String symbol = "";
+        ChessPiece.PieceType pieceType = piece.getPieceType();
+
+        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE) {
+            symbol = getWhitePieceSymbol(pieceType);
+        } else {
+            symbol = getBlackPieceSymbol(pieceType);
+        }
+
+        return symbol;
+    }
+
+    private String getWhitePieceSymbol(ChessPiece.PieceType pieceType) {
+        switch (pieceType) {
+            case KING:
+                return "K";
+            case QUEEN:
+                return "Q";
+            case BISHOP:
+                return "B";
+            case KNIGHT:
+                return "N";  // "N" for Knights
+            case ROOK:
+                return "R";
+            case PAWN:
+                return "P";
+            default:
+                return "";
+        }
+    }
+
+    private String getBlackPieceSymbol(ChessPiece.PieceType pieceType) {
+        switch (pieceType) {
+            case KING:
+                return "k";
+            case QUEEN:
+                return "q";
+            case BISHOP:
+                return "b";
+            case KNIGHT:
+                return "n";  // "N" for Knights
+            case ROOK:
+                return "r";
+            case PAWN:
+                return "p";
+            default:
+                return "";
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {
